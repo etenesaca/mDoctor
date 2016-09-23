@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg6"
+    android:orientation="vertical"
+    tools:ignore="UseCompoundDrawables,HardcodedText" >
+
+    <TextView
+        android:id="@+id/displaying"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:id="@+id/lyNoRecord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:contentDescription="No hay registros para mostrar"
+            android:src="@drawable/ic_action_about" />
+
+        <TextView
+            android:id="@+id/tvNoRecords"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:text="No hay registros TIPO DE RESIGTRO para mostrar"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:textStyle="bold|italic"
+            tools:ignore="UnusedAttribute" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lvEventList"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:divider="#00000000"
+        android:drawSelectorOnTop="false"
+        android:persistentDrawingCache="scrolling"
+        android:scrollingCache="false" >
+    </ListView>
+
+</LinearLayout>
