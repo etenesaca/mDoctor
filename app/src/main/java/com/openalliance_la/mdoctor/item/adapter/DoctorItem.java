@@ -104,8 +104,8 @@ public class DoctorItem extends ArrayAdapter<clsDoctor> {
             v.txtTitle.setText(Record.get_name());
             v.txtTitle.setVisibility(View.VISIBLE);
             v.txtTitle.setTypeface(Roboto_light);
-            v.txtCount.setText(res.get("num_images") + "");
-            v.txtCount.setVisibility(View.VISIBLE);
+            //v.txtCount.setText(res.get("num_images") + "");
+            //v.txtCount.setVisibility(View.VISIBLE);
             v.imgIcon.setScaleType(ImageView.ScaleType.CENTER_CROP);
             v.imgIcon.setImageBitmap((Bitmap) res.get("bmp"));
         }

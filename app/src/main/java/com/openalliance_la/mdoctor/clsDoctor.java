@@ -96,6 +96,10 @@ public class clsDoctor {
         this._photo = _photo;
     }
 
+    public void set_photo(Bitmap bmp) {
+        this.set_photo(gl.BitmaptoByteArray(bmp));
+    }
+
     public clsDoctor() { }
 
     public clsDoctor(Context Context) {
