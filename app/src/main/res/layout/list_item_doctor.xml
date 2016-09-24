@@ -50,7 +50,7 @@
             tools:ignore="UseCompoundDrawables">
 
             <TextView
-                android:id="@+id/tvCategory"
+                android:id="@+id/tvSpecialty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Cat 1"

@@ -26,11 +26,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +48,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AddDoctorActivity extends AppCompatActivity {
 
@@ -75,11 +78,14 @@ public class AddDoctorActivity extends AppCompatActivity {
     TextView lblSpecial;
     TextView lblPhone;
     TextView lblMobile;
+    Spinner spSpecial;
 
     ListView lvImages;
     LinearLayout lyChildImages;
     Button btnGallery;
     Button btnCamera;
+
+    HashMap<String,Integer> MapSpecialty = new HashMap<String,Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +107,7 @@ public class AddDoctorActivity extends AppCompatActivity {
         ivImage = (ImageView) findViewById(R.id.ivImage);
         btnGallery = (Button) findViewById(R.id.btnGallery);
         btnCamera = (Button) findViewById(R.id.btnCamera);
+        spSpecial = (Spinner) findViewById(R.id.spSpecial);
 
         // Establecer las fuentes
         Roboto_light = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
@@ -145,6 +152,25 @@ public class AddDoctorActivity extends AppCompatActivity {
             SelectedRecord = null;
             getSupportActionBar().setTitle("Agregar Doctor");
         }
+
+        // Cargar la lista de Especialidades
+        String[] lstSpecial = {
+                "Odontología",
+                "Gastroenterología",
+                "Geriatría",
+                "Neumología",
+                "Cardiología",
+                "Psiquiatría",
+                "Ginecología",
+                "Cardiología",
+                "Rehabilitación",
+                "Medicina Genaral"
+        };
+        for (int i = 0; i < lstSpecial.length; i++) {
+            MapSpecialty.put(lstSpecial[i], i);
+        }
+        ArrayAdapter<String> special_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lstSpecial);
+        spSpecial.setAdapter(special_adapter);
     }
 
     /**
@@ -173,6 +199,7 @@ public class AddDoctorActivity extends AppCompatActivity {
             HashMap<String, Object> res = new HashMap<String, Object>();
             // Obtener la imagen
             res.put("bmp", gl.build_image(Context, SelectedRecord.get_photo()));
+            res.put("specialty_index", gl.getIndexSpinner(spSpecial, SelectedRecord.get_specialty()));
             return res;
         }
 
@@ -184,6 +211,7 @@ public class AddDoctorActivity extends AppCompatActivity {
             txtPhone.setText(SelectedRecord.get_phone());
             txtMobile.setText(SelectedRecord.get_mobile());
             ivImage.setImageBitmap((Bitmap) res.get("bmp"));
+            spSpecial.setSelection(Integer.parseInt(res.get("specialty_index") + ""));
         }
     }
 
@@ -350,16 +378,18 @@ public class AddDoctorActivity extends AppCompatActivity {
                     Snackbar.make(findViewById(android.R.id.content), "Primero Ingrese un nombre", Snackbar.LENGTH_LONG)
                             .show();
                 } else if (DoctorObj.getRecords(new Object[]{ManageDB.ColumnsDoctor.DOCTOR_NAME, "=", NewDoctor.get_name()}).size() > 0) {
-                    Snackbar.make(findViewById(android.R.id.content), "Ya hay una categoria con este nombre", Snackbar.LENGTH_LONG)
+                    Snackbar.make(findViewById(android.R.id.content), "Ya hay un Doctor con este nombre", Snackbar.LENGTH_LONG)
                             .show();
                 } else {
+                    NewDoctor.set_specialty(spSpecial.getSelectedItem() + "");
+
                     // Redimensionar imagen
                     ivImage.buildDrawingCache();
                     Bitmap bm = ivImage.getDrawingCache();
                     bm = gl.scaleDown(bm, 512, true);
                     NewDoctor.set_photo(bm);
 
-                    // Crear una categoria
+                    // Crear un Doctor
                     DoctorObj.AddRecord(NewDoctor);
                     startActivity(DoctorActivity);
                 }
@@ -369,6 +399,7 @@ public class AddDoctorActivity extends AppCompatActivity {
                 vals.put(ManageDB.ColumnsDoctor.DOCTOR_NAME, txtName.getText().toString());
                 vals.put(ManageDB.ColumnsDoctor.DOCTOR_PHONE, txtPhone.getText().toString());
                 vals.put(ManageDB.ColumnsDoctor.DOCTOR_MOBILE, txtMobile.getText().toString());
+                vals.put(ManageDB.ColumnsDoctor.DOCTOR_SPECILTY, spSpecial.getSelectedItem() + "");
 
                 // Redimensionar imagen
                 ivImage.buildDrawingCache();

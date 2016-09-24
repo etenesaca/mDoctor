@@ -45,6 +45,7 @@ public class DoctorItem extends ArrayAdapter<clsDoctor> {
 
             holder = new ViewHolder();
             holder.txtTitle = (TextView) convertView.findViewById(R.id.tvName);
+            holder.tvSpecialty = (TextView) convertView.findViewById(R.id.tvSpecialty);
             holder.imgIcon = (ImageView) convertView.findViewById(R.id.ivImage);
             convertView.setTag(holder);
         } else {
@@ -104,6 +105,7 @@ public class DoctorItem extends ArrayAdapter<clsDoctor> {
             v.txtTitle.setText(Record.get_name());
             v.txtTitle.setVisibility(View.VISIBLE);
             v.txtTitle.setTypeface(Roboto_light);
+            v.tvSpecialty.setText(Record.get_specialty());
             //v.txtCount.setText(res.get("num_images") + "");
             //v.txtCount.setVisibility(View.VISIBLE);
             v.imgIcon.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -115,6 +117,6 @@ public class DoctorItem extends ArrayAdapter<clsDoctor> {
     {
         ImageView imgIcon;
         TextView txtTitle;
-        TextView txtCount;
+        TextView tvSpecialty;
     }
 }
