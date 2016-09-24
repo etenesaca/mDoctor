@@ -67,9 +67,15 @@ public class AddDoctorActivity extends AppCompatActivity {
 
     clsDoctor DoctorObj = new clsDoctor(Context);
     EditText txtName;
+    EditText txtPhone;
+    EditText txtMobile;
     ImageView ivImage;
     TextView lblName;
     TextView lblImage;
+    TextView lblSpecial;
+    TextView lblPhone;
+    TextView lblMobile;
+
     ListView lvImages;
     LinearLayout lyChildImages;
     Button btnGallery;
@@ -86,8 +92,12 @@ public class AddDoctorActivity extends AppCompatActivity {
 
         lblName = (TextView) findViewById(R.id.lblLanguaje);
         lblImage = (TextView) findViewById(R.id.lblImage);
-        lblImage = (TextView) findViewById(R.id.lblImage);
+        lblSpecial = (TextView) findViewById(R.id.lblSpecial);
+        lblPhone = (TextView) findViewById(R.id.lblPhone);
+        lblMobile = (TextView) findViewById(R.id.lblMobile);
         txtName = (EditText) findViewById(R.id.tvName);
+        txtPhone = (EditText) findViewById(R.id.tvPhone);
+        txtMobile = (EditText) findViewById(R.id.tvMobile);
         ivImage = (ImageView) findViewById(R.id.ivImage);
         btnGallery = (Button) findViewById(R.id.btnGallery);
         btnCamera = (Button) findViewById(R.id.btnCamera);
@@ -98,6 +108,9 @@ public class AddDoctorActivity extends AppCompatActivity {
 
         lblName.setTypeface(Roboto_bold);
         lblImage.setTypeface(Roboto_bold);
+        lblSpecial.setTypeface(Roboto_bold);
+        lblPhone.setTypeface(Roboto_bold);
+        lblMobile.setTypeface(Roboto_bold);
 
         btnGallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,6 +181,8 @@ public class AddDoctorActivity extends AppCompatActivity {
             super.onPostExecute(res);
 
             txtName.setText(SelectedRecord.get_name());
+            txtPhone.setText(SelectedRecord.get_phone());
+            txtMobile.setText(SelectedRecord.get_mobile());
             ivImage.setImageBitmap((Bitmap) res.get("bmp"));
         }
     }
@@ -327,6 +342,8 @@ public class AddDoctorActivity extends AppCompatActivity {
             case R.id.action_save:
                 clsDoctor NewDoctor = new clsDoctor();
                 NewDoctor.set_name(txtName.getText().toString());
+                NewDoctor.set_phone(txtPhone.getText().toString());
+                NewDoctor.set_mobile(txtMobile.getText().toString());
 
                 // Verificar si la categoria no ya no esta creda
                 if (NewDoctor.get_name().equals("")) {
@@ -350,6 +367,8 @@ public class AddDoctorActivity extends AppCompatActivity {
             case R.id.action_save_edit:
                 ContentValues vals = new ContentValues();
                 vals.put(ManageDB.ColumnsDoctor.DOCTOR_NAME, txtName.getText().toString());
+                vals.put(ManageDB.ColumnsDoctor.DOCTOR_PHONE, txtPhone.getText().toString());
+                vals.put(ManageDB.ColumnsDoctor.DOCTOR_MOBILE, txtMobile.getText().toString());
 
                 // Redimensionar imagen
                 ivImage.buildDrawingCache();

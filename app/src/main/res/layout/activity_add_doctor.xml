@@ -3,117 +3,177 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg4"
     android:paddingBottom="0dp"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    android:background="@drawable/bg4"
     tools:context="com.openalliance_la.mdoctor.activities.AddDoctorActivity">
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView" >
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:weightSum="1">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:background="@drawable/shape"
-                android:layout_height="match_parent">
+                android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/lblLanguaje"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/lbl_name"
-                    android:id="@+id/lblLanguaje"
-                    android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
                     android:layout_weight="0.25"
+                    android:text="@string/lbl_name"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:typeface="normal" />
 
                 <EditText
+                    android:id="@+id/tvName"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:id="@+id/tvName"
-                    android:layout_below="@+id/lblLanguaje"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
                     android:layout_alignParentStart="true"
-                    android:freezesText="false"
+                    android:layout_below="@+id/lblLanguaje"
                     android:layout_weight="0.25"
                     android:capitalize="words"
-                    android:clickable="false" />
+                    android:clickable="false"
+                    android:freezesText="false" />
 
                 <TextView
+                    android:id="@+id/lblSpecial"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Categoria"
                     android:layout_marginTop="10dp"
-                    android:id="@+id/lblCategory" />
+                    android:text="Categoria"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <Spinner
+                    android:id="@+id/spCategory"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/spCategory" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_margin="10dp"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
                 android:background="@drawable/shape"
-                android:layout_height="match_parent">
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Imagen"
-                    android:id="@+id/lblImage"
-                    android:layout_below="@+id/tvName"
+                    android:id="@+id/lblPhone"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_weight="0.25"
+                    android:text="@string/lbl_phone"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:typeface="normal" />
+
+                <EditText
+                    android:id="@+id/tvPhone"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/lbl_name"
+                    android:layout_weight="0.25"
+                    android:clickable="false"
+                    android:freezesText="false"
+                    android:inputType="phone" />
+
+                <TextView
+                    android:id="@+id/lblMobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/lbl_mobile"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <EditText
+                    android:id="@+id/tvMobile"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/lbl_mobile"
+                    android:layout_weight="0.25"
+                    android:clickable="false"
+                    android:freezesText="false"
+                    android:inputType="phone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:background="@drawable/shape"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/lblImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/tvName"
                     android:layout_marginTop="15dp"
-                    android:layout_weight="0.25" />
+                    android:layout_weight="0.25"
+                    android:text="@string/lbl_photo"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <ImageView
+                    android:id="@+id/ivImage"
                     android:layout_width="match_parent"
                     android:layout_height="240dp"
-                    android:id="@+id/ivImage"
-                    android:src="@drawable/img_def"
-                    android:layout_weight="0.25" />
+                    android:layout_weight="0.25"
+                    android:src="@drawable/img_def" />
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:gravity="center_horizontal"
-                    android:layout_height="match_parent">
+                    android:orientation="horizontal">
 
                     <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Galeria"
-                        android:drawableLeft="@drawable/ic_image_18pt"
                         android:id="@+id/btnGallery"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true" />
-                    <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Camara"
+                        android:drawableLeft="@drawable/ic_image_18pt"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:text="Galeria" />
+
+                    <Button
+                        android:id="@+id/btnCamera"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/ic_camera_alt_black_18dp"
-                        android:id="@+id/btnCamera" />
+                        android:text="Camara" />
                 </LinearLayout>
             </LinearLayout>
 

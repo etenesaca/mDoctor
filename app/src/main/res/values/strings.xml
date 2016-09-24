@@ -8,14 +8,19 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_doctor">DoctorActivity</string>
+    <string name="title_activity_doctor">Doctores</string>
 
     <string name="title_activity_save">Guardar</string>
     <string name="select_image">Seleccione la imagen</string>
     <string name="lbl_name">Nombre</string>
+    <string name="lbl_phone">Teléfono</string>
+    <string name="lbl_mobile">Celular</string>
+    <string name="lbl_photo">Foto</string>
+    <string name="lbl_notes">Notas</string>
+    <string name="lbl_special">Especialidad</string>
     <string name="title_activity_add_image_activty">Agregar Imagen</string>
 
-    <string name="btnAddImage">Agregar Imagen</string>
+    <string name="btnAddImage">Agregar</string>
     <string name="btnSearch">Buscar</string>
     <string name="btnSave">Guardar</string>
     <string name="btnDelete">Eliminar</string>
