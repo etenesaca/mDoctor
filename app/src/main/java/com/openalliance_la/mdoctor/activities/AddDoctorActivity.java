@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -19,6 +20,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.openalliance_la.mdoctor.ManageDB;
 import com.openalliance_la.mdoctor.R;
@@ -61,7 +64,7 @@ public class AddDoctorActivity extends AppCompatActivity {
     private final int PHOTO_CODE = 100;
     private final int SELECT_PICTURE = 200;
 
-    
+
     clsDoctor DoctorObj = new clsDoctor(Context);
     EditText txtName;
     ImageView ivImage;
@@ -71,6 +74,7 @@ public class AddDoctorActivity extends AppCompatActivity {
     LinearLayout lyChildImages;
     Button btnGallery;
     Button btnCamera;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,27 +115,31 @@ public class AddDoctorActivity extends AppCompatActivity {
 
         // Obtener los parametros que se le pasan
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null && bundle.containsKey("current_id")){
+        if (bundle != null && bundle.containsKey("current_id")) {
             getSupportActionBar().setTitle("Editar");
             SelectedRecord = new clsDoctor();
             LoadData Task = new LoadData(Integer.parseInt(bundle.getString("current_id") + ""));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 Task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            } else { Task.execute(); }
+            } else {
+                Task.execute();
+            }
 
             // Codigo para habilitar la Crear de menus al mantener presionado
             //registerForContextMenu(lvImages);
             btnGallery.requestFocus();
-        }
-        else{
+        } else {
             SelectedRecord = null;
             getSupportActionBar().setTitle("Agregar Doctor");
         }
     }
 
-    /** Clase Asincrona para recuperar los datos del registro seleccionado **/
+    /**
+     * Clase Asincrona para recuperar los datos del registro seleccionado
+     **/
     protected class LoadData extends AsyncTask<String, Void, HashMap<String, Object>> {
         int RecordID;
+
         public LoadData(int RecordID) {
             this.RecordID = RecordID;
         }
@@ -183,30 +191,76 @@ public class AddDoctorActivity extends AppCompatActivity {
                             );
                             */
     }
+
+    public String pathactual = null;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    //Crear archivo
+    protected File createImageFile() throws IOException {
+        //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "jpg_tmp";
+        File sdCard = Environment.getExternalStorageDirectory(); //Recuperar sdexterno
+        File directory = new File(sdCard.getAbsolutePath() + "/Myphotos");
+        directory.mkdirs();
+        File image = File.createTempFile(
+                imageFileName, // nombre
+                ".jpg", // extension
+                directory // directorio
+        );
+        return image;
+    }
+
+    // Añadir a galeria
+    private void galleryAddPic(String path) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(path);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
+    }
+
     private void openCamera() {
-        File file = new File(Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
-        file.mkdirs();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                //El paquete existe
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException ex) {
+                    Toast.makeText(this, "Existe un problema al guardar la foto ...", Toast.LENGTH_SHORT).show();
+                }
+                // Si el archivo pudo crearse
+                if (photoFile != null) {
+                    Uri fileUri = Uri.fromFile(photoFile); // Crea URI
+                    pathactual = photoFile.toString(); // Guardo path
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+                    startActivityForResult(takePictureIntent, PHOTO_CODE);
+                }
+            }
+        } else {
+            File file = new File(Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
+            file.mkdirs();
 
-        String path = Environment.getExternalStorageDirectory() + File.separator
-                + MEDIA_DIRECTORY + File.separator + TEMPORAL_PICTURE_NAME;
+            String path = Environment.getExternalStorageDirectory() + File.separator
+                    + MEDIA_DIRECTORY + File.separator + TEMPORAL_PICTURE_NAME;
 
-        File newFile = new File(path);
-
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
-        startActivityForResult(intent, PHOTO_CODE);
+            File newFile = new File(path);
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
+            startActivityForResult(intent, PHOTO_CODE);
+        }
     }
 
     /**
      * helper to retrieve the path of an image URI
      */
     public String getPath(Uri uri) {
-        if( uri == null ) {
+        if (uri == null) {
             return null;
         }
-        String[] projection = { MediaStore.Images.Media.DATA };
+        String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        if( cursor != null ){
+        if (cursor != null) {
             int column_index = cursor
                     .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
@@ -216,23 +270,21 @@ public class AddDoctorActivity extends AppCompatActivity {
     }
 
     private String selectedImagePath;
-    private Bitmap NewBitmap;
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            switch (requestCode){
+            switch (requestCode) {
                 case PHOTO_CODE:
-                    if(resultCode == RESULT_OK){
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-                            selectedImagePath =  Environment.getExternalStorageDirectory() + File.separator
-                                    + MEDIA_DIRECTORY + File.separator + TEMPORAL_PICTURE_NAME;
-                            Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath);
-                            ivImage.setImageBitmap(bitmap);
-                        } else {
-
-                        }
+                    Bitmap bmp = null;
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                        selectedImagePath = Environment.getExternalStorageDirectory() + File.separator
+                                + MEDIA_DIRECTORY + File.separator + TEMPORAL_PICTURE_NAME;
+                        bmp = BitmapFactory.decodeFile(selectedImagePath);
+                    } else {
+                        galleryAddPic(pathactual);
+                        bmp = BitmapFactory.decodeFile(pathactual);
                     }
+                    ivImage.setImageBitmap(bmp);
                     break;
                 case SELECT_PICTURE:
                     Uri selectedImageUri = data.getData();
@@ -254,9 +306,11 @@ public class AddDoctorActivity extends AppCompatActivity {
                             Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
                             parcelFileDescriptor.close();
                             ivImage.setImageBitmap(image);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                        catch (FileNotFoundException e) { e.printStackTrace(); }
-                        catch (IOException e) { e.printStackTrace(); }
                     }
                     break;
             }
@@ -278,7 +332,7 @@ public class AddDoctorActivity extends AppCompatActivity {
                 if (NewDoctor.get_name().equals("")) {
                     Snackbar.make(findViewById(android.R.id.content), "Primero Ingrese un nombre", Snackbar.LENGTH_LONG)
                             .show();
-                } else if (DoctorObj.getRecords(new Object[] {ManageDB.ColumnsDoctor.DOCTOR_NAME, "=", NewDoctor.get_name()}).size() > 0){
+                } else if (DoctorObj.getRecords(new Object[]{ManageDB.ColumnsDoctor.DOCTOR_NAME, "=", NewDoctor.get_name()}).size() > 0) {
                     Snackbar.make(findViewById(android.R.id.content), "Ya hay una categoria con este nombre", Snackbar.LENGTH_LONG)
                             .show();
                 } else {
@@ -317,7 +371,8 @@ public class AddDoctorActivity extends AppCompatActivity {
                                 DoctorObj.Delete(SelectedRecord.get_id());
                                 startActivity(DoctorActivity);
                                 finish();
-                            }})
+                            }
+                        })
                         .setNegativeButton(android.R.string.no, null).show();
             default:
                 return super.onOptionsItemSelected(item);
@@ -327,7 +382,7 @@ public class AddDoctorActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        if (SelectedRecord == null){
+        if (SelectedRecord == null) {
             inflater.inflate(R.menu.menu_add, menu);
         } else {
             inflater.inflate(R.menu.menu_edit, menu);
