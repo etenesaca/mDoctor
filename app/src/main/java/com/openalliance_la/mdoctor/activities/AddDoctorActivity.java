@@ -372,6 +372,7 @@ public class AddDoctorActivity extends AppCompatActivity {
                 NewDoctor.set_name(txtName.getText().toString());
                 NewDoctor.set_phone(txtPhone.getText().toString());
                 NewDoctor.set_mobile(txtMobile.getText().toString());
+                NewDoctor.set_specialty(spSpecial.getSelectedItem() + "");
 
                 // Verificar si la categoria no ya no esta creda
                 if (NewDoctor.get_name().equals("")) {
@@ -381,8 +382,6 @@ public class AddDoctorActivity extends AppCompatActivity {
                     Snackbar.make(findViewById(android.R.id.content), "Ya hay un Doctor con este nombre", Snackbar.LENGTH_LONG)
                             .show();
                 } else {
-                    NewDoctor.set_specialty(spSpecial.getSelectedItem() + "");
-
                     // Redimensionar imagen
                     ivImage.buildDrawingCache();
                     Bitmap bm = ivImage.getDrawingCache();

@@ -86,7 +86,7 @@ public class clsDoctor {
     }
 
     public void set_specialty(String _specialty) {
-        this._specialty = _details;
+        this._specialty = _specialty;
     }
 
     public String get_specialty() {
