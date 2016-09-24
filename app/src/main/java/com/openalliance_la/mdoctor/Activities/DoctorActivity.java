@@ -180,9 +180,6 @@ public class DoctorActivity extends AppCompatActivity {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
             SearchView search = (SearchView) menu.findItem(R.id.action_search).getActionView();
-
-            search.setSuggestionsAdapter(mAdapter);
-            search.setIconifiedByDefault(false);
             search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
             search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
@@ -193,52 +190,19 @@ public class DoctorActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    populateAdapter(newText);
                     return false;
                 }
             });
             search.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    if (!hasFocus) {
+                    if (!hasFocus){
                         LoadListData();
                     }
                 }
             });
-            search.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
-                @Override
-                public boolean onSuggestionSelect(int position) {
-                    return false;
-                }
-
-                @Override
-                public boolean onSuggestionClick(int position) {
-                    return false;
-                }
-            });
         }
         return true;
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-    }
-
-    private static final String[] SUGGESTIONS = {
-            "Bauru", "Sao Paulo", "Rio de Janeiro",
-            "Bahia", "Mato Grosso", "Minas Gerais",
-            "Tocantins", "Rio Grande do Sul"
-    };
-    private SimpleCursorAdapter mAdapter;
-
-    private void populateAdapter(String query) {
-        final MatrixCursor c = new MatrixCursor(new String[]{ BaseColumns._ID, "cityName" });
-        for (int i=0; i<SUGGESTIONS.length; i++) {
-            if (SUGGESTIONS[i].toLowerCase().startsWith(query.toLowerCase()))
-                c.addRow(new Object[] {i, SUGGESTIONS[i]});
-        }
-        mAdapter.changeCursor(c);
     }
 
     @Override
