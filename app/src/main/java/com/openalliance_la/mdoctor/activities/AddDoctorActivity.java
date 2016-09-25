@@ -1,6 +1,5 @@
 package com.openalliance_la.mdoctor.activities;
 
-import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,29 +8,24 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,21 +35,21 @@ import com.openalliance_la.mdoctor.R;
 import com.openalliance_la.mdoctor.clsDoctor;
 import com.openalliance_la.mdoctor.gl;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class AddDoctorActivity extends AppCompatActivity {
 
     Context Context = (Context) this;
     clsDoctor SelectedRecord;
-
-    String imgDecodableString;
 
     Typeface Roboto_light;
     Typeface Roboto_bold;
@@ -66,7 +60,6 @@ public class AddDoctorActivity extends AppCompatActivity {
 
     private final int PHOTO_CODE = 100;
     private final int SELECT_PICTURE = 200;
-
 
     clsDoctor DoctorObj = new clsDoctor(Context);
     EditText txtName;
@@ -79,13 +72,48 @@ public class AddDoctorActivity extends AppCompatActivity {
     TextView lblPhone;
     TextView lblMobile;
     Spinner spSpecial;
+    Spinner spCountry;
 
-    ListView lvImages;
-    LinearLayout lyChildImages;
     Button btnGallery;
     Button btnCamera;
 
-    HashMap<String,Integer> MapSpecialty = new HashMap<String,Integer>();
+    private class LoadSpinners extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... urls) {
+            return gl.readJSONFeed(urls[0]);
+        }
+
+        protected void onPostExecute(String result) {
+            // Cargar la lista Paises
+            try {
+                JSONObject jObj = (JSONObject) new JSONTokener(result).nextValue();
+                JSONArray ArrayCountry = jObj.getJSONObject("RestResponse").getJSONArray("result");
+                ArrayList<String> lstCountries = new ArrayList<String>();
+                for (int i = 0; i < ArrayCountry.length(); i++) {
+                    JSONObject jsonObject = ArrayCountry.getJSONObject(i);
+                    lstCountries.add(jsonObject.getString("name"));
+                }
+                ArrayAdapter<String> country_adapter = new ArrayAdapter<String>(Context, android.R.layout.simple_spinner_item, lstCountries);
+                spCountry.setAdapter(country_adapter);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            // Cargar la lista de Especialidades
+            String[] lstSpecial = {
+                    "Odontología",
+                    "Gastroenterología",
+                    "Geriatría",
+                    "Neumología",
+                    "Cardiología",
+                    "Psiquiatría",
+                    "Ginecología",
+                    "Cardiología",
+                    "Rehabilitación",
+                    "Medicina Genaral"
+            };
+            ArrayAdapter<String> special_adapter = new ArrayAdapter<String>(Context, android.R.layout.simple_spinner_item, lstSpecial);
+            spSpecial.setAdapter(special_adapter);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +136,7 @@ public class AddDoctorActivity extends AppCompatActivity {
         btnGallery = (Button) findViewById(R.id.btnGallery);
         btnCamera = (Button) findViewById(R.id.btnCamera);
         spSpecial = (Spinner) findViewById(R.id.spSpecial);
+        spCountry = (Spinner) findViewById(R.id.spCountry);
 
         // Establecer las fuentes
         Roboto_light = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
@@ -153,24 +182,7 @@ public class AddDoctorActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Agregar Doctor");
         }
 
-        // Cargar la lista de Especialidades
-        String[] lstSpecial = {
-                "Odontología",
-                "Gastroenterología",
-                "Geriatría",
-                "Neumología",
-                "Cardiología",
-                "Psiquiatría",
-                "Ginecología",
-                "Cardiología",
-                "Rehabilitación",
-                "Medicina Genaral"
-        };
-        for (int i = 0; i < lstSpecial.length; i++) {
-            MapSpecialty.put(lstSpecial[i], i);
-        }
-        ArrayAdapter<String> special_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lstSpecial);
-        spSpecial.setAdapter(special_adapter);
+        new LoadSpinners().execute("http://services.groupkt.com/country/get/all");
     }
 
     /**
@@ -237,6 +249,7 @@ public class AddDoctorActivity extends AppCompatActivity {
 
     public String pathactual = null;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+
     //Crear archivo
     protected File createImageFile() throws IOException {
         //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -294,6 +307,7 @@ public class AddDoctorActivity extends AppCompatActivity {
         }
     }
 
+
     /**
      * helper to retrieve the path of an image URI
      */
@@ -313,6 +327,7 @@ public class AddDoctorActivity extends AppCompatActivity {
     }
 
     private String selectedImagePath;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
