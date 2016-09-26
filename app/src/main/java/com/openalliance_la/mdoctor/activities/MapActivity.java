@@ -33,6 +33,7 @@ public class MapActivity extends AppCompatActivity {
         // Rescatamos el Action Bar y activamos el boton HomeActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle("Localización");
 
         txtLongitud = (EditText) findViewById(R.id.txtLongitud);
         txtLatitud = (EditText) findViewById(R.id.txtLatitud);
