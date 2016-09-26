@@ -159,6 +159,7 @@ public class AddDoctorActivity extends AppCompatActivity {
 
         // Obtener los parametros que se le pasan
         Bundle bundle = getIntent().getExtras();
+        String curr_counrty = null;
         if (bundle != null && bundle.containsKey("current_id")) {
             getSupportActionBar().setTitle("Editar");
             SelectedRecord = new clsDoctor();
@@ -169,12 +170,14 @@ public class AddDoctorActivity extends AppCompatActivity {
                 Task.execute();
             }
             btnGallery.requestFocus();
+            curr_counrty = SelectedRecord.get_country();
         } else {
             SelectedRecord = null;
             getSupportActionBar().setTitle("Agregar Doctor");
         }
 
-        new LoadSpinners(SelectedRecord.get_country()).execute("http://services.groupkt.com/country/get/all");
+
+        new LoadSpinners(curr_counrty).execute("http://services.groupkt.com/country/get/all");
         // Cargar la lista de Especialidades
         String[] lstSpecial = {
                 "Odontología",
