@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.openalliance_la.mdoctor">
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,7 +25,8 @@
             android:name=".activities.DoctorActivity"
             android:label="@string/title_activity_doctor"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.AddDoctorActivity"></activity>
+        <activity android:name=".activities.AddDoctorActivity" />
+        <activity android:name=".activities.MapActivity"></activity>
     </application>
 
 </manifest>

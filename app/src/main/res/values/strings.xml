@@ -24,4 +24,7 @@
     <string name="btnSearch">Buscar</string>
     <string name="btnSave">Guardar</string>
     <string name="btnDelete">Eliminar</string>
+
+    <string name="lblLatitud">Latitud</string>
+    <string name="lblLongitud">Longitud</string>
 </resources>

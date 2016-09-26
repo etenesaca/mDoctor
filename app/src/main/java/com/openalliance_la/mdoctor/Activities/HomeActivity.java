@@ -84,20 +84,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.doctors) {
             // Gestionar Doctores
             Intent DoctorActivity = new Intent(Context, DoctorActivity.class);
             startActivity(DoctorActivity);
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.maps) {
+            Intent DoctorActivity = new Intent(Context, MapActivity.class);
+            startActivity(DoctorActivity);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
