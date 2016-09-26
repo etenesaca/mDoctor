@@ -40,12 +40,12 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_weight="0.25"
-                    android:text="@string/lblLongitud"
+                    android:text="@string/lblLatitud"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:typeface="normal" />
 
                 <EditText
-                    android:id="@+id/tvName"
+                    android:id="@+id/txtLatitud"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
                     android:layout_alignParentEnd="true"
@@ -53,6 +53,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/tvLongitud"
+                    android:text="-2.9088009"
                     android:layout_weight="0.25"
                     android:clickable="false"
                     android:freezesText="false" />
@@ -62,17 +63,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="@string/lblLatitud"
+                    android:text="@string/lblLongitud"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <EditText
-                    android:id="@+id/tvLatitud"
+                    android:id="@+id/txtLongitud"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentStart="true"
+                    android:text="-79.0588559"
                     android:layout_weight="0.25"
                     android:clickable="false"
                     android:freezesText="false" />
@@ -84,7 +86,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btnGallery"
+                        android:id="@+id/btnGotoMap"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/ic_gps_fixed_18pt"
