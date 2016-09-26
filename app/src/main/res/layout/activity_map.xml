@@ -33,7 +33,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/lblLanguaje"
+                    android:id="@+id/lblLatitud"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -59,7 +59,7 @@
                     android:freezesText="false" />
 
                 <TextView
-                    android:id="@+id/lblSpecial"
+                    android:id="@+id/lblLongitud"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -79,6 +79,41 @@
                     android:clickable="false"
                     android:freezesText="false" />
 
+                <TextView
+                    android:id="@+id/lblPlace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/lblPlace"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <EditText
+                    android:id="@+id/txtPlace"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
+                    android:text="Misicata - Cuenca"
+                    android:layout_weight="0.25"
+                    android:clickable="false"
+                    android:freezesText="false" />
+
+                <TextView
+                    android:id="@+id/lblZoom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/lblZoom"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spZoom"
+                    android:layout_weight="0.25" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -91,9 +126,7 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/ic_gps_fixed_18pt"
                         android:focusable="true"
-                        android:focusableInTouchMode="true"
                         android:text="Ver en el Mapa" />
-
 
                 </LinearLayout>
 

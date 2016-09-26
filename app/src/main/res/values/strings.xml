@@ -27,4 +27,6 @@
 
     <string name="lblLatitud">Latitud</string>
     <string name="lblLongitud">Longitud</string>
+    <string name="lblZoom">Zoom</string>
+    <string name="lblPlace">Place</string>
 </resources>
