@@ -19,6 +19,7 @@ public class clsDoctor {
     protected String _phone;
     protected String _mobile;
     protected String _address;
+    protected String _country;
     protected String _address_work;
     protected String _facebook;
     protected String _details;
@@ -55,6 +56,14 @@ public class clsDoctor {
 
     public void set_mobile(String _mobile) {
         this._mobile = _mobile;
+    }
+
+    public String get_country() {
+        return _country;
+    }
+
+    public void set_country(String _address) {
+        this._country = _country;
     }
 
     public String get_address() {
@@ -115,12 +124,13 @@ public class clsDoctor {
         this.Context = Context;
     }
 
-    public clsDoctor(int _id, String _name, String _phone, String _mobile, String _address, String _address_work, String _facebook, String _details, String _specialty, byte[] _photo) {
+    public clsDoctor(int _id, String _name, String _phone, String _mobile, String _address, String _country, String _address_work, String _facebook, String _details, String _specialty, byte[] _photo) {
         this._id = _id;
         this._name = _name;
         this._phone = _phone;
         this._mobile = _mobile;
         this._address = _address;
+        this._country = _country;
         this._address_work = _address_work;
         this._facebook = _facebook;
         this._details = _details;
@@ -135,6 +145,7 @@ public class clsDoctor {
         this._phone = res_doctor.get_phone();
         this._mobile = res_doctor.get_mobile();
         this._address = res_doctor.get_address();
+        this._country = res_doctor.get_country();
         this._address_work = res_doctor.get_address_work();
         this._facebook = res_doctor.get_facebook();
         this._details = res_doctor.get_details();
@@ -150,6 +161,7 @@ public class clsDoctor {
         values.put(ColumnsDoctor.DOCTOR_PHONE, NewRecord.get_phone()); // Telefono
         values.put(ColumnsDoctor.DOCTOR_MOBILE, NewRecord.get_mobile()); // Celular
         values.put(ColumnsDoctor.DOCTOR_ADDRESS, NewRecord.get_address()); // Address
+        values.put(ColumnsDoctor.DOCTOR_COUNTRY, NewRecord.get_country()); // Country
         values.put(ColumnsDoctor.DOCTOR_ADDRESS_WORK, NewRecord.get_address_work()); // Address Work
         values.put(ColumnsDoctor.DOCTOR_FACEBOOK, NewRecord.get_facebook()); // Facebook
         values.put(ColumnsDoctor.DOCTOR_DETAILS, NewRecord.get_details()); // Detalles
@@ -160,7 +172,7 @@ public class clsDoctor {
         db.insert(ManageDB.TABLE_DOCTORS, null, values);
         db.close();
     }
-    public int AddRecord(String Name, String Phone, String Mobile, String Address, String Address_work, String Facebook, String Details, String Specialty, byte[] Photo, int intImg) {
+    public int AddRecord(String Name, String Phone, String Mobile, String Address, String Country, String Address_work, String Facebook, String Details, String Specialty, byte[] Photo, int intImg) {
         clsDoctor record = getByName(Name);
         Bitmap bmp = BitmapFactory.decodeResource(Context.getResources(), intImg);
         bmp = gl.scaleDown(bmp, 230, true);
@@ -172,6 +184,7 @@ public class clsDoctor {
             NewRecord.set_phone(Phone);
             NewRecord.set_mobile(Mobile);
             NewRecord.set_address(Address);
+            NewRecord.set_country(Country);
             NewRecord.set_address_work(Address_work);
             NewRecord.set_facebook(Facebook);
             NewRecord.set_details(Details);
@@ -232,6 +245,7 @@ public class clsDoctor {
                 + ColumnsDoctor.DOCTOR_PHONE + ","
                 + ColumnsDoctor.DOCTOR_MOBILE + ","
                 + ColumnsDoctor.DOCTOR_ADDRESS + ","
+                + ColumnsDoctor.DOCTOR_COUNTRY + ","
                 + ColumnsDoctor.DOCTOR_ADDRESS_WORK + ","
                 + ColumnsDoctor.DOCTOR_FACEBOOK + ","
                 + ColumnsDoctor.DOCTOR_DETAILS + ","
@@ -273,7 +287,8 @@ public class clsDoctor {
                         cursor.getString(6),
                         cursor.getString(7),
                         cursor.getString(8),
-                        cursor.getBlob(9)
+                        cursor.getString(9),
+                        cursor.getBlob(10)
                 );
                 // Add Record
                 RecordList.add(Record);

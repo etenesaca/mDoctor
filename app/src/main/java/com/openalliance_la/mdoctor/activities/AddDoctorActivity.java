@@ -78,8 +78,14 @@ public class AddDoctorActivity extends AppCompatActivity {
     Button btnCamera;
 
     private class LoadSpinners extends AsyncTask<String, Void, String> {
-        protected String doInBackground(String... urls) {
-            return gl.readJSONFeed(urls[0]);
+        String selectitem = null;
+
+        public LoadSpinners(String selectitem) {
+            this.selectitem = selectitem;
+        }
+
+        protected String doInBackground(String... params) {
+            return gl.readJSONFeed(params[0]);
         }
 
         protected void onPostExecute(String result) {
@@ -94,24 +100,13 @@ public class AddDoctorActivity extends AppCompatActivity {
                 }
                 ArrayAdapter<String> country_adapter = new ArrayAdapter<String>(Context, android.R.layout.simple_spinner_item, lstCountries);
                 spCountry.setAdapter(country_adapter);
+
+                if (selectitem != null){
+                    spCountry.setSelection(Integer.parseInt(gl.getIndexSpinner(spCountry, selectitem) + ""));
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            // Cargar la lista de Especialidades
-            String[] lstSpecial = {
-                    "Odontología",
-                    "Gastroenterología",
-                    "Geriatría",
-                    "Neumología",
-                    "Cardiología",
-                    "Psiquiatría",
-                    "Ginecología",
-                    "Cardiología",
-                    "Rehabilitación",
-                    "Medicina Genaral"
-            };
-            ArrayAdapter<String> special_adapter = new ArrayAdapter<String>(Context, android.R.layout.simple_spinner_item, lstSpecial);
-            spSpecial.setAdapter(special_adapter);
         }
     }
 
@@ -173,16 +168,28 @@ public class AddDoctorActivity extends AppCompatActivity {
             } else {
                 Task.execute();
             }
-
-            // Codigo para habilitar la Crear de menus al mantener presionado
-            //registerForContextMenu(lvImages);
             btnGallery.requestFocus();
         } else {
             SelectedRecord = null;
             getSupportActionBar().setTitle("Agregar Doctor");
         }
 
-        new LoadSpinners().execute("http://services.groupkt.com/country/get/all");
+        new LoadSpinners(SelectedRecord.get_country()).execute("http://services.groupkt.com/country/get/all");
+        // Cargar la lista de Especialidades
+        String[] lstSpecial = {
+                "Odontología",
+                "Gastroenterología",
+                "Geriatría",
+                "Neumología",
+                "Cardiología",
+                "Psiquiatría",
+                "Ginecología",
+                "Cardiología",
+                "Rehabilitación",
+                "Medicina Genaral"
+        };
+        ArrayAdapter<String> special_adapter = new ArrayAdapter<String>(Context, android.R.layout.simple_spinner_item, lstSpecial);
+        spSpecial.setAdapter(special_adapter);
     }
 
     /**
@@ -212,6 +219,7 @@ public class AddDoctorActivity extends AppCompatActivity {
             // Obtener la imagen
             res.put("bmp", gl.build_image(Context, SelectedRecord.get_photo()));
             res.put("specialty_index", gl.getIndexSpinner(spSpecial, SelectedRecord.get_specialty()));
+            //res.put("country_index", gl.getIndexSpinner(spCountry, SelectedRecord.get_country()));
             return res;
         }
 
@@ -224,6 +232,7 @@ public class AddDoctorActivity extends AppCompatActivity {
             txtMobile.setText(SelectedRecord.get_mobile());
             ivImage.setImageBitmap((Bitmap) res.get("bmp"));
             spSpecial.setSelection(Integer.parseInt(res.get("specialty_index") + ""));
+            //spCountry.setSelection(Integer.parseInt(res.get("country_index") + ""));
         }
     }
 
@@ -388,6 +397,7 @@ public class AddDoctorActivity extends AppCompatActivity {
                 NewDoctor.set_phone(txtPhone.getText().toString());
                 NewDoctor.set_mobile(txtMobile.getText().toString());
                 NewDoctor.set_specialty(spSpecial.getSelectedItem() + "");
+                NewDoctor.set_country(spCountry.getSelectedItem() + "");
 
                 // Verificar si la categoria no ya no esta creda
                 if (NewDoctor.get_name().equals("")) {
@@ -414,6 +424,7 @@ public class AddDoctorActivity extends AppCompatActivity {
                 vals.put(ManageDB.ColumnsDoctor.DOCTOR_PHONE, txtPhone.getText().toString());
                 vals.put(ManageDB.ColumnsDoctor.DOCTOR_MOBILE, txtMobile.getText().toString());
                 vals.put(ManageDB.ColumnsDoctor.DOCTOR_SPECILTY, spSpecial.getSelectedItem() + "");
+                vals.put(ManageDB.ColumnsDoctor.DOCTOR_COUNTRY, spCountry.getSelectedItem() + "");
 
                 // Redimensionar imagen
                 ivImage.buildDrawingCache();

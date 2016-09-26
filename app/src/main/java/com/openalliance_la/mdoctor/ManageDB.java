@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ManageDB extends SQLiteOpenHelper {
     // Database Version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 4;
     // Database Name
     private static final String DATABASE_NAME = "mdoctor_db";
 
@@ -25,6 +25,7 @@ public class ManageDB extends SQLiteOpenHelper {
         public static final String DOCTOR_PHONE = "phone";
         public static final String DOCTOR_MOBILE = "mobile";
         public static final String DOCTOR_ADDRESS = "address";
+        public static final String DOCTOR_COUNTRY = "country";
         public static final String DOCTOR_ADDRESS_WORK = "address_work";
         public static final String DOCTOR_FACEBOOK = "facebook";
         public static final String DOCTOR_DETAILS = "details";
@@ -46,6 +47,7 @@ public class ManageDB extends SQLiteOpenHelper {
                 + ColumnsDoctor.DOCTOR_PHONE + " VARCHAR(10) NULL,"
                 + ColumnsDoctor.DOCTOR_MOBILE + " VARCHAR(10) NULL,"
                 + ColumnsDoctor.DOCTOR_ADDRESS + " VARCHAR(256) NULL,"
+                + ColumnsDoctor.DOCTOR_COUNTRY + " VARCHAR(100) NULL,"
                 + ColumnsDoctor.DOCTOR_ADDRESS_WORK + " VARCHAR(256) NULL,"
                 + ColumnsDoctor.DOCTOR_FACEBOOK + " VARCHAR(256) NULL,"
                 + ColumnsDoctor.DOCTOR_DETAILS + " VARCHAR(600) NULL,"
