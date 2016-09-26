@@ -13,13 +13,23 @@
     tools:context="com.openalliance_la.mdoctor.activities.HomeActivity"
     tools:showIn="@layout/app_bar_home">
 
-    <GridView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/lvDoctor"
-        android:layout_alignParentTop="true"
-        android:scrollingCache="false"
-        android:animationCache="false"
-        android:smoothScrollbar="true"
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/android_icon_128"
+        android:id="@+id/imageView2"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="@string/lbltitleHome"
+        android:gravity="center"
+        android:textSize="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_above="@+id/imageView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
